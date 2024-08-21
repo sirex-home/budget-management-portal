@@ -1,0 +1,6 @@
+test {
+    systemProperty 'spring.profiles.active', 'test'
+    useJUnitPlatform {
+        excludeTags 'integration-test'
+    }
+}
