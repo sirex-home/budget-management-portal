@@ -5,11 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.example.budget.repository.BudgetEventsRepository;
 import org.example.budget.repository.entity.BudgetEntity;
 import org.example.budget.repository.entity.BudgetEventWrapperEntity;
+import org.example.budget.repository.entity.BudgetStatus;
 import org.example.budget.repository.entity.events.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +69,14 @@ public class BudgetService {
         }
         budget.setId(budgetId);
         return budget;
+    }
+
+    public List<BudgetEntity> getBudgets(Integer page) {
+        return Mocker.mockedBudgets.subList(page, page * 20);
+    }
+
+    public List<BudgetEntity> getEvents(Long budgetId, Integer page) {
+        return Mocker.mockedBudgets.subList(page, page * 20);
     }
 
 }
