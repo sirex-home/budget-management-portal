@@ -20,7 +20,7 @@ public class ClientSimulator {
     }
 
     public ResponseEntity<Map> createBudget(Integer amount, String description) {
-        var requestEntity = RequestEntity.post("/v1/budgets")
+        var requestEntity = RequestEntity.post("/api/v1/budgets")
                 .body(Map.of(
                         "type", "CREATE",
                         "amount", amount,
@@ -31,7 +31,7 @@ public class ClientSimulator {
     }
 
     public ResponseEntity<Map> updateBudget(Integer budgetId, Integer amount, String description) {
-        var requestEntity = RequestEntity.put("/v1/budgets/" + budgetId)
+        var requestEntity = RequestEntity.put("/api/v1/budgets/" + budgetId)
                 .body(Map.of(
                         "type", "UPDATE",
                         "amount", amount,
@@ -41,7 +41,7 @@ public class ClientSimulator {
     }
 
     public ResponseEntity<Map> submitForApproval(Integer budgetId) {
-        var requestEntity = RequestEntity.put("/v1/budgets/" + budgetId + "/submit-for-approval")
+        var requestEntity = RequestEntity.put("/api/v1/budgets/" + budgetId + "/submit-for-approval")
                 .body(Map.of(
                         "type", "SUBMIT_FOR_APPROVAL"
                 ));
@@ -49,7 +49,7 @@ public class ClientSimulator {
     }
 
     public ResponseEntity<Map> approve(Integer budgetId) {
-        var requestEntity = RequestEntity.put("/v1/budgets/" + budgetId + "/approve")
+        var requestEntity = RequestEntity.put("/api/v1/budgets/" + budgetId + "/approve")
                 .body(Map.of(
                         "type", "APPROVE"
                 ));
@@ -57,7 +57,7 @@ public class ClientSimulator {
     }
 
     public ResponseEntity<Map> rejectBudget(Integer budgetId) {
-        var requestEntity = RequestEntity.put("/v1/budgets/" + budgetId + "/reject")
+        var requestEntity = RequestEntity.put("/api/v1/budgets/" + budgetId + "/reject")
                 .body(Map.of(
                         "type", "REJECT_APPROVAL"
                 ));
@@ -66,7 +66,7 @@ public class ClientSimulator {
     }
 
     public ResponseEntity<Map> sourceBudget(Integer budgetId) {
-        var requestEntity = RequestEntity.get("/v1/budgets/" + budgetId).build();
+        var requestEntity = RequestEntity.get("/api/v1/budgets/" + budgetId).build();
         return rest.exchange(requestEntity, Map.class);
     }
 

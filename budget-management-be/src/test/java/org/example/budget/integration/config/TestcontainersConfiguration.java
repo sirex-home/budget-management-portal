@@ -25,7 +25,7 @@ public class TestcontainersConfiguration {
 
     @DynamicPropertySource
     static void setupTestContainers(DynamicPropertyRegistry dynamicPropertyRegistry, PostgreSQLContainer<?> postgresContainer) {
-        dynamicPropertyRegistry.add("spring.jpa.database", () -> "postgresql");
+//        dynamicPropertyRegistry.add("spring.jpa.database", () -> "postgresql");
         dynamicPropertyRegistry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
         dynamicPropertyRegistry.add("spring.datasource.username", postgresContainer::getUsername);
         dynamicPropertyRegistry.add("spring.datasource.password", postgresContainer::getPassword);

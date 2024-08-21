@@ -1,18 +1,12 @@
 spring:
   application.name: budjet-management
-  liquibase:
-    enabled: false
-    change-log: classpath:db-migrations/changelog-master.yaml
-
   main.banner-mode: off
-  jpa.properties.hibernate.types.print.banner: false
+  jpa:
+    open-in-view: false
   flyway:
     enabled: true
     baselineOnMigrate: true
     validateOnMigrate: true
     locations: classpath:db/migration
-
-spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
-
-spring.mvc.static-path-pattern: /**
-spring.web.resources.static-locations: file:./budget-management-fe/dist/
+  mvc.static-path-pattern: /**
+  web.resources.static-locations: file:./budget-management-fe/dist/

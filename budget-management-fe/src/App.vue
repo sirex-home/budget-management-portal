@@ -1,47 +1,73 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import HomeIcon from "@/components/icons/HomeIcon.vue";
+import BudgetsIcon from "@/components/icons/BudgetsIcon.vue";
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="full-height column">
+    <div class="top-bar">
+      <div>Accounting portal</div>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div class="full-height row">
+      <div class="menu-column">
+        <RouterLink to="/home" class="menu-button"><HomeIcon class="menu-icon" /><div>Home</div></RouterLink>
+        <RouterLink to="/budgets" class="menu-button"><BudgetsIcon class="menu-icon" />Budgets</RouterLink>
+      </div>
+      <main class="main-container">
+        <RouterView/>
+      </main>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.menu-button {
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.menu-icon {
+  width: var(--menu-icon-width);
+  height: var(--menu-icon-height);
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.full-height {
+  height: 100vh;
 }
+
+.top-bar {
+  height: var(--top-bar-height);
+  background-color: var(--top-menu-color);
+  color: var(--top-menu-text-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 15px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.menu-column {
+  width: var(--side-menu-width);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-container {
+  width: 100%;
+  background: #ccaccc;
+}
+
 </style>
