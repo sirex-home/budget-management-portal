@@ -1,0 +1,4 @@
+rootProject.name = 'budget-management-portal'
+include 'budget-management-be'
+include 'budget-management-fe'
+

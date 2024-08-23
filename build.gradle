@@ -1,6 +1,30 @@
-test {
-    systemProperty 'spring.profiles.active', 'test'
-    useJUnitPlatform {
-        excludeTags 'integration-test'
-    }
+version = '0.0.2'
+
+subprojects {
+    group 'com.example'
+    version "$version"
+}
+
+task printRootProjectName {
+    doLast { println rootProject.name }
+}
+
+task installFrontendDependencies(type: Exec) {
+    workingDir 'budget-management-fe'
+    commandLine 'npm', 'install'
+}
+
+task buildFrontend(type: Exec) {
+    dependsOn 'installFrontendDependencies'
+    workingDir 'budget-management-fe'
+    commandLine 'npm', 'run', 'build'
+}
+
+task buildBackend(type: Exec) {
+    dependsOn ':budget-management-be:build'
+    commandLine 'echo', 'finished building backend'
+}
+
+task printVersion {
+    doLast { println project.version }
 }

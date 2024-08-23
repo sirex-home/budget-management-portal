@@ -16,7 +16,7 @@ public class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     PostgreSQLContainer<?> postgresContainer() {
-        return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
+        return new PostgreSQLContainer<>(DockerImageName.parse("postgres:16.4-alpine"))
                 .withDatabaseName("budget-service")
                 .withUsername("admin")
                 .withPassword("admin")
@@ -25,7 +25,6 @@ public class TestcontainersConfiguration {
 
     @DynamicPropertySource
     static void setupTestContainers(DynamicPropertyRegistry dynamicPropertyRegistry, PostgreSQLContainer<?> postgresContainer) {
-//        dynamicPropertyRegistry.add("spring.jpa.database", () -> "postgresql");
         dynamicPropertyRegistry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
         dynamicPropertyRegistry.add("spring.datasource.username", postgresContainer::getUsername);
         dynamicPropertyRegistry.add("spring.datasource.password", postgresContainer::getPassword);
