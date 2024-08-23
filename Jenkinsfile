@@ -1,6 +1,9 @@
 @Library("jenkins-shared-library") _
 
 SPAJavaPipeline(
-    "8070:8080",
-    ["RUKULA_APP_POSTGRES_URL", "RUKULA_APP_POSTGRES_USERNAME", "RUKULA_APP_POSTGRES_PASSWORD"]
+    portMapping: "8070:8080",
+    appMemory: "500m",
+    appCpu: "0.5"
+    credentials: ["RUKULA_APP_POSTGRES"],
+    variables: ["RUKULA_APP_POSTGRES_URL"]
 )

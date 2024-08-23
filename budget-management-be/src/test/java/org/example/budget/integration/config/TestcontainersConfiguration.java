@@ -8,6 +8,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
+import java.util.List;
 import java.util.Map;
 
 @TestConfiguration(proxyBeanMethods = false)
@@ -16,6 +17,7 @@ public class TestcontainersConfiguration {
     @Bean
     @ServiceConnection
     PostgreSQLContainer<?> postgresContainer() {
+        List<String> f;
         return new PostgreSQLContainer<>(DockerImageName.parse("postgres:16.4-alpine"))
                 .withDatabaseName("budget-service")
                 .withUsername("admin")
