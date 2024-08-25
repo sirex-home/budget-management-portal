@@ -2,14 +2,6 @@
 import {ref} from "vue";
 import {formatDateString} from "@/services/dateService.js";
 
-const head2 = {
-  columns: ['first', 'second', 'third'],
-  sortBy: 'first',
-  sortOrder: 'asc' // desc
-}
-const data2 = [{'first': 123, 'second': 123, 'third': 123, }]
-var data3 = [{'name': 'Vasia', 'age': 17}, {'name': 'Slava', 'surname': 'Cat'}]
-
 const props = defineProps(['columns', 'data'])
 let columnsWidth = ref(extractColumnsWidth(props.columns))
 
@@ -19,17 +11,6 @@ function extractColumnsWidth(columns) {
   return style;
 }
 
-function extractFieldsNames(data) {
-  const fields = new Set()
-  for (let record of data) {
-    // console.log("record: ", record)
-    for (let fieldName in record) {
-      fields.add(fieldName)
-    }
-  }
-  console.log('fields: ', fields)
-  return fields
-}
 </script>
 
 <template>

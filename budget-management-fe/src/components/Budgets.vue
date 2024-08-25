@@ -36,7 +36,10 @@ const columns = ref([
 </script>
 
 <template>
-  <div class="pt-table-wrapper">
+  <div v-if="loading" class="centered-loader">
+    <div class="loader" />
+  </div>
+  <div v-else class="pt-table-wrapper">
     <div class="pt-search-bar">
       Some search bar here
     </div>
