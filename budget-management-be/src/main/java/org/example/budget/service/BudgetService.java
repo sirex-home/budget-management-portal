@@ -72,7 +72,7 @@ public class BudgetService {
     }
 
     public List<BudgetEntity> getBudgets(Integer page) {
-        return Mocker.mockedBudgets.subList(page, page * 20);
+        return Mocker.mockedBudgets.subList(page, 20 + page * 20);
     }
 
     public List<BudgetEntity> getEvents(Long budgetId, Integer page) {

@@ -1,14 +1,12 @@
-:root {
-  --menu-icon-width: 30px;
-  --menu-icon-height: 30px;
-  --side-menu-width: 270px;
-  --top-bar-height: 50px;
-  --top-menu-color: #004040;
-  --top-menu-text-color: #9f9f9f;
-}
 
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
+  --dark-bg-color: #004040;
+  --dark-bg-text-color: #afafaf;
+  --neutral-bg-color: #cccccc;
+  --neutral-bg-text-color: #004040;
+  --light-bg-color: #dddddd;
+
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
@@ -67,8 +65,12 @@
   font-weight: normal;
 }
 
+html, body, #app {
+  height: 100%;
+}
+
 body {
-  /*min-height: 100vh;*/
+
   color: var(--color-text);
   background: var(--color-background);
   transition:

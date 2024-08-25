@@ -1,6 +1,5 @@
 package org.example.budget.integration;
 
-import org.example.budget.integration.config.TestConstants;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.RequestEntity;
@@ -10,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-@Profile(TestConstants.PROFILE_INTEGRATION_TEST)
+@Profile(BaseIntegrationTest.PROFILE_INTEGRATION_TEST)
 public class ClientSimulator {
 
     private final TestRestTemplate rest;

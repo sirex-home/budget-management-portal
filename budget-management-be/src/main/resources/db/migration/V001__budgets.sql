@@ -3,13 +3,14 @@ create table if not exists budgets
     id                  bigint primary key generated always as identity,
     last_event_number   bigint not null,
 
+    title               text not null,
     description         text,
     status              text,
     amount              decimal,
 
     created_at          timestamp not null,
     updated_at          timestamp not null,
-    updated_by          text not null,
+    updated_by          bigint not null,
 
     version             integer not null
 );

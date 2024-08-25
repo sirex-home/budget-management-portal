@@ -6,21 +6,28 @@ import org.example.budget.repository.entity.BudgetStatus;
 import org.example.budget.repository.entity.events.*;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Mocker {
 
+    private static String loremIpsum(int words) {
+        String[] splitted = "Lorem  eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                .split(" ");
+        return String.join(" ", List.of(splitted).subList(0, Math.min(words, splitted.length)));
+    }
+
     private static List<BudgetEntity> mockedBudgets() {
         List<BudgetEntity> result = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             result.addAll(List.of(
-                    new BudgetEntity(1L, 2L, "Summer school budget", BigDecimal.valueOf(52_000), BudgetStatus.APPROVED),
-                    new BudgetEntity(12L, 12L, "New Year budget", BigDecimal.valueOf(125_232), BudgetStatus.APPROVED),
-                    new BudgetEntity(31L, 77L, "NORAD budget", BigDecimal.valueOf(4_311_200_000L), BudgetStatus.APPROVED),
-                    new BudgetEntity(56L, 19L, "Oslo property budget", BigDecimal.valueOf(63_000), BudgetStatus.APPROVED),
-                    new BudgetEntity(91L, 14L, "Medicine budget", BigDecimal.valueOf(13_000), BudgetStatus.APPROVED)
+                    BudgetEntity.builder().id(1L).lastEventNumber(2L).title("Summer school budget").description(loremIpsum(15)).amount(BigDecimal.valueOf(52_000)).status(BudgetStatus.APPROVED).createdAt(Instant.now()).updatedAt(Instant.now()).updatedByUserId(12994L).build(),
+                    BudgetEntity.builder().id(12L).lastEventNumber(12L).title("New Year budget").description(loremIpsum(5)).amount(BigDecimal.valueOf(125_232)).status(BudgetStatus.APPROVED).createdAt(Instant.now()).updatedAt(Instant.now()).updatedByUserId(12994L).build(),
+                    BudgetEntity.builder().id(31L).lastEventNumber(77L).title("NORAD budget").description(loremIpsum(50)).amount(BigDecimal.valueOf(4_311_200_000L)).status(BudgetStatus.DRAFT).createdAt(Instant.now()).updatedAt(Instant.now()).updatedByUserId(1000L).build(),
+                    BudgetEntity.builder().id(56L).lastEventNumber(19L).title("Oslo property budget").description(loremIpsum(5)).amount(BigDecimal.valueOf(63_000)).status(BudgetStatus.DRAFT).createdAt(Instant.now()).updatedAt(Instant.now()).updatedByUserId(1000L).build(),
+                    BudgetEntity.builder().id(91L).lastEventNumber(14L).title("Medicine budget").description(loremIpsum(23)).amount(BigDecimal.valueOf(13_000)).status(BudgetStatus.APPROVED).createdAt(Instant.now()).updatedAt(Instant.now()).updatedByUserId(12994L).build()
             ));
         }
         return result;
@@ -35,7 +42,7 @@ public class Mocker {
                 new CreateEventPayload("New Year budget", BigDecimal.valueOf(421234L))));
         Random random = new Random();
         double chance = Math.random();
-        for (long i=0; i<100; i++) {
+        for (long i = 0; i < 100; i++) {
             long amount = random.nextLong(42_000_000);
             if (chance < 0.7) {
                 result.add(new BudgetEventWrapperEntity(i, 12L, 13L,

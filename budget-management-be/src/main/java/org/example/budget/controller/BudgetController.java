@@ -15,7 +15,7 @@ public class BudgetController {
     private final BudgetService budgetService;
 
     @GetMapping("/v1/budgets")
-    public List<BudgetEntity> getBudget(@RequestParam("page") Integer page) {
+    public List<BudgetEntity> getBudget(@RequestParam(value = "page", defaultValue = "0") Integer page) {
         return budgetService.getBudgets(page);
     }
 

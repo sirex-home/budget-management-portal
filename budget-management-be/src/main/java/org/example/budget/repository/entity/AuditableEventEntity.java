@@ -27,6 +27,6 @@ public class AuditableEventEntity {
 
     @Column(name = "created_by")
     @CreatedBy
-    protected String createdByUserId;
+    protected Long createdByUserId;
 
 }

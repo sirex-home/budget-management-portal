@@ -31,7 +31,7 @@ public class AuditableEntity {
 
     @Column(name = "updated_by")
     @LastModifiedBy
-    protected String updatedByUserId;
+    protected Long updatedByUserId;
 
     @Version
     @Column(name = "version", nullable = false)

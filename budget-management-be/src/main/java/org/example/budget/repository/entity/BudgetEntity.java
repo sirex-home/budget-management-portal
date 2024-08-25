@@ -22,6 +22,8 @@ public class BudgetEntity extends AuditableEntity {
     @Builder.Default
     private Long lastEventNumber = 0L;
 
+    private String title;
+
     private String description;
 
     private BigDecimal amount;
