@@ -6,40 +6,21 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(async config => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 500));
     return config;
 }, error => {
     return Promise.reject(error);
 });
 
 export async function getBudgets(page) {
-    console.log("getBudgets!")
     return apiClient.get(`/api/v1/budgets?page=${page}`)
         .then(resp => resp.data)
         .catch(err => console.log("ERROR: Failed to call for budgets. ", err))
 }
 
-
-export async function getBudgets3(page) {
-    const response = await fetch(`/api/v1/budgets?page=${page}`)
-    console.log("1", response, response.ok);
-    if (!response.ok) {
-        console.log("1.1");
-        let result = await response.text()
-        console.log("Error!", result)
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
-    } else {
-        console.log("dbg")
-    }
-    let json = await response.json()
-    console.log("1.2", json);
-    return json;
-}
-
-export async function getBudgets2(page) {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve("hello");
-        }, 2000);
-    });
+export async function getBudgetDetails(id) {
+    console.log(`calling for: /api/v1/budgets/${id}`)
+    return apiClient.get(`/api/v1/budgets/${id}`)
+        .then(resp => resp.data)
+        .catch(err => console.log(`ERROR: Failed to call for budget[${id}] details. `, err))
 }

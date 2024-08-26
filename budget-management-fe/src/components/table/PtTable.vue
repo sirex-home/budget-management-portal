@@ -3,12 +3,10 @@ import {ref} from "vue";
 import {formatDateString} from "@/services/dateService.js";
 
 const props = defineProps(['columns', 'data'])
-let columnsWidth = ref(extractColumnsWidth(props.columns))
+const emit = defineEmits(['row-clicked'])
 
-function extractColumnsWidth(columns) {
-  let style = columns.map(el => el.width).join(' ')
-  console.log(style)
-  return style;
+function extractColumnsWidth() {
+  return props.columns.map(el => el.width).join(" ")
 }
 
 </script>
@@ -21,7 +19,7 @@ function extractColumnsWidth(columns) {
       </div>
     </div>
     <div class="pt-table-body">
-      <div class="pt-table-row" v-for="(row, rowIndex) in props.data" :key="rowIndex">
+      <div class="pt-table-row" v-for="(row, rowIndex) in props.data" :key="rowIndex" @click="emit('row-clicked', row)">
         <div class="pt-table-cell" v-for="(column, colIndex) in props.columns" :key="colIndex">
           <span v-if="column.type === Date">{{ formatDateString(row[column.field]) }}</span>
           <span v-else>{{ row[column.field] }}</span>
@@ -45,7 +43,7 @@ function extractColumnsWidth(columns) {
 
 .pt-table-head {
   display: grid;
-  grid-template-columns: v-bind('extractColumnsWidth(props.columns)');
+  grid-template-columns: v-bind('extractColumnsWidth()');
   font-weight: bold;
 }
 
@@ -64,7 +62,7 @@ function extractColumnsWidth(columns) {
 
 .pt-table-row {
   display: grid;
-  grid-template-columns: v-bind('extractColumnsWidth(props.columns)');
+  grid-template-columns: v-bind('extractColumnsWidth()');
 }
 .pt-table-row:hover {
   background-color: rgba(0,0,0,0.05);

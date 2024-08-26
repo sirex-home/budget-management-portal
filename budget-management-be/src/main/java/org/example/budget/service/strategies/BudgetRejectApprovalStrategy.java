@@ -1,6 +1,7 @@
 package org.example.budget.service.strategies;
 
 import org.example.budget.repository.entity.BudgetEntity;
+import org.example.budget.repository.entity.BudgetEventWrapperEntity;
 import org.example.budget.repository.entity.BudgetStatus;
 import org.example.budget.repository.entity.events.AbstractEventPayload;
 import org.example.budget.repository.entity.events.RejectApprovalEventPayload;
@@ -14,8 +15,8 @@ public class BudgetRejectApprovalStrategy extends AbstractBudgetStrategy<RejectA
     }
 
     @Override
-    public BudgetEntity sourceEvent(BudgetEntity budget, AbstractEventPayload evt) {
-        var event = (RejectApprovalEventPayload) evt;
+    public BudgetEntity sourceEvent(BudgetEntity budget, BudgetEventWrapperEntity evt) {
+        var event = (RejectApprovalEventPayload) evt.getPayload();
         budget.setStatus(BudgetStatus.REJECTED);
         return budget;
     }

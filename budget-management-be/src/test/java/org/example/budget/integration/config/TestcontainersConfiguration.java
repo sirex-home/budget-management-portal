@@ -27,32 +27,32 @@ public class TestcontainersConfiguration {
                 .withTmpFs(Map.of("/var/lib/postgresql/data", "rw"));
     }
 
-    @Bean
-    KeycloakContainer KeycloakContainer() {
-        KeycloakContainer keycloak = new KeycloakContainer()
-                .withAdminUsername("admin")
-                .withAdminPassword("admin")
-                .withRealmImportFile("test-realm.json")
-                ;
-
-        keycloak.setPortBindings(List.of(
-                "9000:9000", "8888:8080"));
-        keycloak.start();
-
-        Keycloak keycloakAdminClient = KeycloakBuilder.builder()
-                .serverUrl(keycloak.getAuthServerUrl())
-                .realm(KeycloakContainer.MASTER_REALM)
-                .clientId(KeycloakContainer.ADMIN_CLI_CLIENT)
-                .username(keycloak.getAdminUsername())
-                .password(keycloak.getAdminPassword())
-                .build();
-
-        System.out.println();
-        System.out.println("keycloak: " + keycloak.getExposedPorts());
-        System.out.println();
-
-        return keycloak;
-    }
+//    @Bean
+//    KeycloakContainer KeycloakContainer() {
+//        KeycloakContainer keycloak = new KeycloakContainer()
+//                .withAdminUsername("admin")
+//                .withAdminPassword("admin")
+//                .withRealmImportFile("test-realm.json")
+//                ;
+//
+//        keycloak.setPortBindings(List.of(
+//                "9000:9000", "8888:8080"));
+//        keycloak.start();
+//
+//        Keycloak keycloakAdminClient = KeycloakBuilder.builder()
+//                .serverUrl(keycloak.getAuthServerUrl())
+//                .realm(KeycloakContainer.MASTER_REALM)
+//                .clientId(KeycloakContainer.ADMIN_CLI_CLIENT)
+//                .username(keycloak.getAdminUsername())
+//                .password(keycloak.getAdminPassword())
+//                .build();
+//
+//        System.out.println();
+//        System.out.println("keycloak: " + keycloak.getExposedPorts());
+//        System.out.println();
+//
+//        return keycloak;
+//    }
 
 //    docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:25.0.4 start-dev
 

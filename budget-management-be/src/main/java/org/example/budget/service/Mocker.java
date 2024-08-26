@@ -39,14 +39,14 @@ public class Mocker {
     private static List<BudgetEventWrapperEntity> mockedEvents() {
         List<BudgetEventWrapperEntity> result = new ArrayList<>();
         result.add(new BudgetEventWrapperEntity(1L, 12L, 13L,
-                new CreateEventPayload("New Year budget", BigDecimal.valueOf(421234L))));
+                new CreateEventPayload("New Year budget", "test" , BigDecimal.valueOf(421234L))));
         Random random = new Random();
         double chance = Math.random();
         for (long i = 0; i < 100; i++) {
             long amount = random.nextLong(42_000_000);
             if (chance < 0.7) {
                 result.add(new BudgetEventWrapperEntity(i, 12L, 13L,
-                        new UpdateEventPayload("New Year budget", BigDecimal.valueOf(amount))));
+                        new UpdateEventPayload("New Year budget", "test", BigDecimal.valueOf(amount))));
             } else if (chance < 0.8) {
                 result.add(new BudgetEventWrapperEntity(i, 12L, 13L,
                         new SubmitForApprovalEventPayload("super_manager")));

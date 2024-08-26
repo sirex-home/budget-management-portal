@@ -18,10 +18,10 @@ public abstract class AbstractBudgetStrategy <Event extends AbstractEventPayload
 
     public abstract Class<Event> getTargetEvent();
 
-    public abstract BudgetEntity sourceEvent(BudgetEntity budget, AbstractEventPayload event);
+    public abstract BudgetEntity sourceEvent(BudgetEntity budget, BudgetEventWrapperEntity event);
 
     public BudgetEntity sourceEventWrapper(BudgetEntity budget, BudgetEventWrapperEntity wrapper) {
-        budget = sourceEvent(budget, wrapper.getPayload());
+        budget = sourceEvent(budget, wrapper);
         budget.setUpdatedAt(wrapper.getCreatedAt());
         budget.setUpdatedByUserId(wrapper.getCreatedByUserId());
         budget.setLastEventNumber(wrapper.getSequenceNumber());

@@ -18,6 +18,4 @@ public abstract class AbstractEventPayload {
 
     private String type;
 
-    private Long sequenceNumber;
-
 }

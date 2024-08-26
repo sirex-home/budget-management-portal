@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(callSuper = true)
 public class CreateEventPayload extends AbstractEventPayload {
 
+    private String title;
+
     private String description;
 
     private BigDecimal amount;

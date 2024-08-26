@@ -1,25 +1,25 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import {getBudgets, getBudgets2} from '../services/client.js'
+import {getBudgets} from '../services/client.js'
 import PtTable from "@/components/table/PtTable.vue";
-
-const route = useRoute()
+import {useRoute, useRouter} from "vue-router";
 
 let loading = ref(false)
 const budgets = ref([])
 const error = ref(null)
+const router = useRouter()
+
 
 async function fetchBudgets(page) {
   loading.value = true
-  // budgets.value = []
-  budgets.value = await getBudgets(page)
+  const budgetsPage = await getBudgets(page)
+  budgets.value = budgetsPage.data
+  console.log('--> ', budgets.value)
   loading.value = false
   return
 }
 
 onMounted(async () => {
-  console.log("Hook!")
   await fetchBudgets(0)
 })
 
@@ -33,6 +33,7 @@ const columns = ref([
     {'field': 'createdAt',       'displayName': 'Created at',        'width': '200px', 'type': Date   },
     {'field': 'updatedAt',       'displayName': 'Updated at',        'width': '200px', 'type': Date   },
 ])
+
 </script>
 
 <template>
@@ -44,7 +45,7 @@ const columns = ref([
       Some search bar here
     </div>
     <div class="pt-tab">
-      <PtTable :columns="columns" :data="budgets"></PtTable>
+      <PtTable :columns="columns" :data="budgets" @row-clicked="row => router.push('/budgets/' + row.id)"></PtTable>
     </div>
   </div>
 </template>
