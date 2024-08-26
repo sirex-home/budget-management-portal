@@ -2,5 +2,7 @@
 </script>
 
 <template>
-  Welcome Home!
+  <v-container>
+    <h1>Welcome Home!</h1>
+  </v-container>
 </template>

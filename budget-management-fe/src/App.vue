@@ -1,24 +1,62 @@
 <script setup>
-import HomeIcon from "@/components/icons/HomeIcon.vue";
-import BudgetsIcon from "@/components/icons/BudgetsIcon.vue";
+import { ref } from 'vue';
+
+const menu = ref(false);
+function logout() {
+  // Добавьте логику для выхода из системы
+  console.log('Logging out...');
+}
 </script>
 
 <template>
-  <div class="app column">
-    <div class="top-bar">
-      <div>Accounting portal</div>
-    </div>
-    <div class="app-main-field row">
-      <div class="menu-column">
-        <RouterLink to="/home" class="menu-button"><HomeIcon class="menu-icon" /><div>Home</div></RouterLink>
-        <RouterLink to="/budgets" class="menu-button"><BudgetsIcon class="menu-icon" />Budgets</RouterLink>
-      </div>
-      <main class="main-container">
-        <RouterView/>
-      </main>
-    </div>
-  </div>
+  <v-app>
+    <v-app-bar app>
+      <v-toolbar-title>Management Portal</v-toolbar-title>
+      <v-spacer />
+      <v-menu offset-y>
+        <template v-slot:activator="{ props }">
+          <v-avatar v-bind="props" size="40" class="mr-4">
+            <v-icon>mdi-account</v-icon>
+          </v-avatar>
+        </template>
+        <v-list>
+          <v-list-item @click="logout">
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-app-bar>
+
+    <v-navigation-drawer app>
+      <v-list>
+        <v-list-item :to="{ name: 'home' }">
+          <v-list-item-title>
+            <v-icon>mdi-home</v-icon>
+            Home
+          </v-list-item-title>
+        </v-list-item>
+
+        <v-list-item :to="{ name: 'budgets' }">
+          <v-list-item-title>
+            <v-icon>mdi-cash</v-icon>
+            Budgets
+          </v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <router-view/>
+    </v-main>
+  </v-app>
 </template>
+
+<script setup>
+</script>
+
+<style>
+</style>
+
 
 <style scoped>
 .app {
