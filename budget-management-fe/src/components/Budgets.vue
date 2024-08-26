@@ -2,42 +2,42 @@
 import {ref, onMounted} from 'vue'
 import {getBudgets} from '../services/client.js'
 import PtTable from "@/components/table/PtTable.vue";
+import Testo from "@/components/table/Testo.vue";
 import {useRouter} from "vue-router";
 
 let loading = ref(false)
-const budgets = ref([])
 const error = ref(null)
 const router = useRouter()
 
-
-async function fetchBudgets(page) {
-  loading.value = true
-  const budgetsPage = await getBudgets(page)
-  budgets.value = budgetsPage.data
-  console.log('--> ', budgets.value)
-  loading.value = false
-  return
-}
-
-onMounted(async () => {
-  await fetchBudgets(0)
-})
-
 const columns = ref([
-  {'field': 'id', 'displayName': 'Id', 'width': '50px', 'type': String},
-  {'field': 'title', 'displayName': 'Title', 'width': '200px', 'type': String},
-  {'field': 'status', 'displayName': 'Status', 'width': '100px', 'type': String},
-  {'field': 'amount', 'displayName': 'Amount', 'width': '120px', 'type': String},
-  {'field': 'description', 'displayName': 'Description', 'width': '380px', 'type': String},
-  {'field': 'lastEventNumber', 'displayName': 'Last event number', 'width': '100px', 'type': String},
-  {'field': 'createdAt', 'displayName': 'Created at', 'width': '200px', 'type': Date},
-  {'field': 'updatedAt', 'displayName': 'Updated at', 'width': '200px', 'type': Date},
+  {'type': String, 'width': '50px',  'field': 'id',              'displayName': 'Id' },
+  {'type': String, 'width': '200px', 'field': 'title',           'displayName': 'Title'},
+  {'type': String, 'width': '100px', 'field': 'status',          'displayName': 'Status'},
+  {'type': String, 'width': '120px', 'field': 'amount',          'displayName': 'Amount'},
+  {'type': String, 'width': '380px', 'field': 'description',     'displayName': 'Description'},
+  {'type': String, 'width': '100px', 'field': 'lastEventNumber', 'displayName': 'Last event number'},
+  {'type': Date,   'width': '200px', 'field': 'createdAt',       'displayName': 'Created at'},
+  {'type': Date,   'width': '200px', 'field': 'updatedAt',       'displayName': 'Updated at'},
 ])
 
+function setLoading(state) {
+  console.log("setLoading => ", state)
+  loading.value = state
+}
+
+let trigger = ref(false)
+
+function updateShow(newValue) {
+  trigger.value = newValue;
+  // setLoading(newValue)
+}
 </script>
 
 <template>
   <v-container>
+<!--    <div v-if="trigger">trigger</div>-->
+<!--    <Testo @update:show="updateShow"></Testo>-->
+
     <div v-if="loading" class="centered-loader">
       <div class="loader"/>
     </div>
@@ -46,7 +46,11 @@ const columns = ref([
         Some search bar here
       </div>
       <div class="pt-tab">
-        <PtTable :columns="columns" :data="budgets" @row-clicked="row => router.push('/budgets/' + row.id)"></PtTable>
+        <PtTable :columns="columns"
+                 @update:loading="setLoading"
+                 @row-clicked="row => router.push('/budgets/' + row.id)"
+        >
+        </PtTable>
       </div>
     </div>
   </v-container>

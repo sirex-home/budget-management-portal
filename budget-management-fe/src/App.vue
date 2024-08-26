@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
+import colors from 'vuetify/util/colors'
 
 const menu = ref(false);
+
 function logout() {
   // Добавьте логику для выхода из системы
   console.log('Logging out...');
@@ -10,14 +12,18 @@ function logout() {
 
 <template>
   <v-app>
-    <v-app-bar app>
+    <v-app-bar app color="primary" density="compact">
       <v-toolbar-title>Management Portal</v-toolbar-title>
-      <v-spacer />
+      <v-spacer/>
       <v-menu offset-y>
         <template v-slot:activator="{ props }">
-          <v-avatar v-bind="props" size="40" class="mr-4">
-            <v-icon>mdi-account</v-icon>
-          </v-avatar>
+          <v-hover v-slot="{ isHovering }">
+            <v-avatar v-bind="props" size="35" class="mr-6" variant="flat"
+                      :color="isHovering ? colors.blue.lighten5 : colors.blue.lighten4">
+              <v-icon>mdi-account</v-icon>
+            </v-avatar>
+          </v-hover>
+
         </template>
         <v-list>
           <v-list-item @click="logout">
