@@ -12,7 +12,7 @@ apiClient.interceptors.request.use(async config => {
     return Promise.reject(error);
 });
 
-export async function getBudgets(page) {
+export async function getBudgets(page, searchReq) {
     return apiClient.get(`/api/v1/budgets?page=${page}`)
         .then(resp => resp.data)
         .catch(err => console.log("ERROR: Failed to call for budgets. ", err))

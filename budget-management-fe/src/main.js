@@ -3,6 +3,7 @@ import './assets/main.css'
 import {createApp} from 'vue'
 import App from './App.vue'
 import {createRouter, createWebHistory} from "vue-router";
+import {createPinia} from "pinia";
 
 import vuetify from './vuetify.js';
 import Home from "@/components/Home.vue";
@@ -18,6 +19,7 @@ const routes = [
 ]
 
 const app = createApp(App)
+    .use(createPinia())
     .use(vuetify.plugin, vuetify.options)
     .use(createRouter({
         history: createWebHistory(),
