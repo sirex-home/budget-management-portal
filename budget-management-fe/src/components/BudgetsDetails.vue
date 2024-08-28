@@ -7,9 +7,7 @@ const route = useRoute()
 
 let details = ref(null)
 onMounted(async () => {
-  console.log("=== ", route.params.id)
   details.value = await getBudgetDetails(route.params.id)
-  console.log("=== ", details.value)
 })
 </script>
 

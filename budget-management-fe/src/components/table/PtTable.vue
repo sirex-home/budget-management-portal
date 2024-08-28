@@ -2,7 +2,9 @@
 import {onMounted, toRaw, ref} from "vue";
 import {formatDateString} from "@/services/dateService.js";
 import PtTableFilters from "@/components/table/PtTableFilters.vue";
+import {useTablesStore} from "@/components/table/tablesState.js";
 
+const tablesStore = useTablesStore()
 
 const props = defineProps({
   tableId: {
@@ -23,7 +25,6 @@ const showSideMenu = ref(false)
 const data = ref([])
 const page = ref(1)
 const totalPages = ref(0)
-const selectedSearchParams = ref({})
 const filtersPanelApi = ref(null)
 
 const cssGridColumnsConfig = props.config.columns.map(el => el.width).join(" ")
@@ -43,18 +44,19 @@ async function fetchBudgets(newPage) {
 
 function openSearchTools() {
   showSideMenu.value = !showSideMenu.value
-  filtersPanelApi.value.initializeState(toRaw(selectedSearchParams.value))
+  filtersPanelApi.value.initializeState(toRaw(tablesStore.tablesParams[props.tableId]))
 }
 
 function updateSearchParams(searchParams) {
-  selectedSearchParams.value = searchParams
+  tablesStore.setTableParams('budgets', searchParams)
+
   showSideMenu.value = false
   console.log('req', prepareSearchRequest())
 }
 
 function prepareSearchRequest() {
   const result = {}
-  let params = toRaw(selectedSearchParams.value)
+  let params = toRaw(tablesStore)
 
   if (params) {
     if (params._fulltextSearch !== null && params._fulltextSearch !== "") {
@@ -71,7 +73,6 @@ function prepareSearchRequest() {
   }
   return result;
 }
-
 </script>
 
 <template>

@@ -19,7 +19,7 @@ const filtersInputsData = ref({});
 
 
 function initializeState(searchParams) {
-  const imported = JSON.parse(JSON.stringify(searchParams))
+  const imported = searchParams === undefined ? {} : JSON.parse(JSON.stringify(searchParams))
   if (imported._fulltextSearch || imported._fulltextSearch === "") {
     fulltextSearch.value = imported._fulltextSearch
   }

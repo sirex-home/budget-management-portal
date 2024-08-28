@@ -1,5 +1,5 @@
 <script setup>
-import {ref, onMounted} from 'vue'
+import {ref} from 'vue'
 import {getBudgets} from '../services/client.js'
 import PtTable from "@/components/table/PtTable.vue";
 import {useRouter} from "vue-router";
@@ -26,6 +26,8 @@ const config = ref({
 function setLoading(state) {
   loading.value = state
 }
+const tableId = "budgets"
+
 </script>
 
 <template>
@@ -35,7 +37,7 @@ function setLoading(state) {
     </div>
     <div v-show="!loading" class="pt-table-wrapper">
       <div class="pt-tab">
-        <PtTable :table-id='budgets' :config="config" :pageableDataProvider="getBudgets"
+        <PtTable :table-id='tableId' :config="config" :pageableDataProvider="getBudgets"
                  @table-loading-data="setLoading"
                  @row-clicked="row => router.push('/budgets/' + row.id)">
         </PtTable>
