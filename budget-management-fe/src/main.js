@@ -14,7 +14,8 @@ import BudgetsDetails from "@/components/BudgetsDetails.vue";
 const routes = [
     {path: '/',                                    component: Home},
     {path: '/home',        name: 'home',           component: Home},
-    {path: '/budgets',     name: 'budgets',        component: Budgets},
+    {path: '/budgets',     name: 'budgets',        component: Budgets,
+        meta: { actions: [ { event: 'open:table-filters', icon: 'mdi-filter' } ] } },
     {path: '/budgets/:id', name: 'budget-details', component: BudgetsDetails}
 ]
 

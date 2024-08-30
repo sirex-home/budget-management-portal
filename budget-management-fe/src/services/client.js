@@ -6,7 +6,7 @@ const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use(async config => {
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 1500));
     return config;
 }, error => {
     return Promise.reject(error);

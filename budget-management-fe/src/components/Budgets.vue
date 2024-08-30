@@ -31,33 +31,21 @@ const tableId = "budgets"
 </script>
 
 <template>
-  <v-container>
+  <v-container class="page-container">
     <div v-show="loading" class="centered-loader">
       <div class="loader"/>
     </div>
-    <div v-show="!loading" class="pt-table-wrapper">
-      <div class="pt-tab">
-        <PtTable :table-id='tableId' :config="config" :pageableDataProvider="getBudgets"
-                 @table-loading-data="setLoading"
-                 @row-clicked="row => router.push('/budgets/' + row.id)">
-        </PtTable>
-      </div>
-    </div>
+    <PtTable :table-id='tableId' :config="config" :pageableDataProvider="getBudgets"
+             @table-loading-data="setLoading"
+             @row-clicked="row => router.push('/budgets/' + row.id)">
+    </PtTable>
   </v-container>
 </template>
 
 <style scoped>
-.pt-table-wrapper {
-  --searchbar-tab-height: 30px;
-
-  height: 100%;
+.page-container {
+  height: calc(100vh - var(--v-layout-top));
+  background-color: #004040;
 }
 
-
-
-.pt-tab {
-  flex-grow: 1;
-  overflow: scroll;
-  height: calc(100% - var(--searchbar-tab-height));
-}
 </style>

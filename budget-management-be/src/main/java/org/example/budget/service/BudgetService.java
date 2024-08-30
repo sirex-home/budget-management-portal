@@ -78,7 +78,7 @@ public class BudgetService {
     }
 
     public PageDto<BudgetEntity> getBudgets(Integer page) {
-        Page<BudgetEntity> all = budgetsRepository.findAll(PageRequest.of(page, 10));
+        Page<BudgetEntity> all = budgetsRepository.findAll(PageRequest.of(page, 20));
         return PageDto.<BudgetEntity>builder()
                 .total(all.getTotalPages())
                 .data(all.get().collect(Collectors.toUnmodifiableList()))

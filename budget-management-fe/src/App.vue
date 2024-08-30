@@ -1,6 +1,7 @@
 <script setup>
-import {ref} from 'vue';
-import colors from 'vuetify/util/colors'
+import {ref, watch} from 'vue';
+import { useRoute } from 'vue-router'
+import colors, {green, grey} from 'vuetify/util/colors'
 
 const menu = ref(false);
 
@@ -8,22 +9,38 @@ function logout() {
   // Добавьте логику для выхода из системы
   console.log('Logging out...');
 }
+
+const contextualActions = ref([])
+const updateContextualPanel = () => {
+  console.log('route.props:', route.meta)
+  if (route.meta && route.meta.actions) {
+    contextualActions.value = route.meta.actions
+  } else {
+    contextualActions.value = []
+  }
+}
+
+const route = useRoute()
+watch(route, updateContextualPanel, { immediate: false })
+
+import eventBus from '@/eventBuss.js'
 </script>
 
 <template>
   <v-app>
     <v-app-bar app color="primary" density="compact">
       <v-toolbar-title>Management Portal</v-toolbar-title>
-      <v-spacer/>
+      <div class="contextual-app-bar-menu">
+        <div class="app-bar-btn app-bar-contextual-btn">
+          <v-icon @click="() => eventBus.emit(act.event, null)" v-for="(act, index) in contextualActions" :key="index" >{{ act.icon }}</v-icon>
+        </div>
+      </div>
+<!--      <v-spacer/>-->
       <v-menu offset-y>
         <template v-slot:activator="{ props }">
-          <v-hover v-slot="{ isHovering }">
-            <v-avatar v-bind="props" size="35" class="mr-6" variant="flat"
-                      :color="isHovering ? colors.blue.lighten5 : colors.blue.lighten4">
-              <v-icon>mdi-account</v-icon>
-            </v-avatar>
-          </v-hover>
-
+          <div class="app-bar-btn app-bar-core-btn" v-bind="props">
+            <v-icon>mdi-account</v-icon>
+          </div>
         </template>
         <v-list>
           <v-list-item @click="logout">
@@ -65,65 +82,39 @@ function logout() {
 
 
 <style scoped>
-.app {
-  --top-bar-height: 40px;
-  --menu-icon-width: 30px;
-  --menu-icon-height: 30px;
-  --side-menu-width: 170px;
-
-  height: 100%;
-}
-
-.menu-button {
-  color: var(--neutral-bg-text-color);
-  padding: 5px 10px;
+.contextual-app-bar-menu {
+  margin-right: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
   gap: 10px;
+  padding: 2px;
+}
+
+.app-bar-btn {
+  aspect-ratio: 1 / 1;
+  display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
-.menu-icon {
-  width: var(--menu-icon-width);
-  height: var(--menu-icon-height);
+.app-bar-btn:hover {
+  background-color: rgba(0,0,0,0.1);
 }
 
-.top-bar {
-  height: var(--top-bar-height);
-  background-color: var(--dark-bg-color);
-  color: var(--dark-bg-text-color);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 5px 15px;
+.app-bar-core-btn {
+  margin-right: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  height: 40px;
 }
 
-.app-main-field {
-  height: calc(100% - var(--top-bar-height));
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-.menu-column {
-  width: var(--side-menu-width);
-  display: flex;
-  flex-direction: column;
-  background-color: var(--neutral-bg-color);
-}
-
-.main-container {
-  width: calc(100% - var(--side-menu-width));
-  height: 100%;
-  background: var(--light-bg-color);
+.app-bar-contextual-btn {
+  height: 30px;
 }
 
 </style>

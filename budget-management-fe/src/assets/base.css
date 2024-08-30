@@ -2,10 +2,10 @@
 
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
+  --pt-primary-color: #004060;
+
   --dark-bg-color: #004040;
   --dark-bg-text-color: #afafaf;
-  --neutral-bg-color: #cccccc;
-  --neutral-bg-text-color: #004040;
   --light-bg-color: #dddddd;
 
   --vt-c-white: #ffffff;
@@ -99,18 +99,26 @@ body {
 
 /* HTML: <div class="loader"></div> */
 .centered-loader {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  z-index: 99999999;
+  background-color: rgba(0,0,0,0.15);
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .loader {
-  width: 75px;
+  width: 70px;
   padding: 8px;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: var(--dark-bg-color);
+  background: var(--pt-primary-color);
   --_m:
           conic-gradient(#0000 10%,#000),
           linear-gradient(#000 0 0) content-box;
