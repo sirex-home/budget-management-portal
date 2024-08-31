@@ -30,7 +30,7 @@ import eventBus from '@/eventBuss.js'
   <v-app>
     <v-app-bar app color="primary" density="compact">
       <v-toolbar-title>Management Portal</v-toolbar-title>
-      <div class="contextual-app-bar-menu">
+      <div v-if="contextualActions.length > 0" class="contextual-app-bar-menu">
         <div class="app-bar-btn app-bar-contextual-btn">
           <v-icon @click="() => eventBus.emit(act.event, null)" v-for="(act, index) in contextualActions" :key="index" >{{ act.icon }}</v-icon>
         </div>

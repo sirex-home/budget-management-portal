@@ -89,23 +89,23 @@ function changePage(newPage) {
   console.log('changing page', newPage)
   fetchBudgets(newPage)
 }
-
 </script>
 
 <template>
-  <div class="pt-table-panel" v-if="data.length > 0">
-    <PtTableFilters v-model="showSideMenu"
-                    ref="filtersPanelApi"
-                    :filterable-columns="filterableColumns" :searchable="searchable"
-                    @filters-updated="updateSearchParams"></PtTableFilters>
+  <PtTableFilters v-model="showSideMenu"
+                  ref="filtersPanelApi"
+                  :filterable-columns="filterableColumns" :searchable="searchable"
+                  @filters-updated="updateSearchParams"></PtTableFilters>
 
-    <div class="pt-table-wrapper">
-      <div class="pt-table-head">
-        <div class="pt-table-header-cell" v-for="(column, index) in props.config.columns" :key="index">
-          {{ column.displayName }}
+  <div class="pt-table-panel" v-if="data.length > 0">
+    <div class="pt-table-panel-2">       <!-- horizontal scrolling of table WITH header -->
+      <div style="display: inline-block; align-self: start;">
+        <div class="pt-table-head">
+          <div class="pt-table-header-cell" v-for="(column, index) in props.config.columns" :key="index">
+            {{ column.displayName }}
+          </div>
         </div>
-      </div>
-      <div class="pt-table-body-wrapper">
+        <!--      <div style="flex-grow: 1; background-color: peachpuff; display: inline-flex; flex-direction: column; align-self: flex-start;">-->
         <div class="pt-table-body">
           <div class="pt-table-row" v-for="(row, rowIndex) in data" :key="rowIndex" @click="emit('row-clicked', row)">
             <div class="pt-table-cell" v-for="(column, colIndex) in props.config.columns" :key="colIndex">
@@ -116,64 +116,50 @@ function changePage(newPage) {
         </div>
       </div>
     </div>
-
-    <div class="pt-pagination-panel">
-      <v-pagination @update:model-value="changePage" size="20" v-model="page" :length="totalPages"
-                    :total-visible="6"></v-pagination>
-    </div>
-
+    <v-pagination @update:model-value="changePage" size="30" v-model="page" :length="totalPages"
+                  :total-visible="6"></v-pagination>
   </div>
+
 </template>
 
 <style scoped>
-:root {
-  --pt-table-gap: 10px;
-}
-
-.pt-table-wrapper {
-  overflow-x: scroll;
-  //overflow-y: hidden;
-  flex-grow: 1;
-  background-color: peachpuff;
-}
-
 .pt-table-panel {
-  background-color: #00bd7e;
+  --pt-table-gap: 0px;
+  --pt-border-color: #ccc;
+  --pt-table-head-bg-color: #f0f0f0;
+
   height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
+.pt-table-panel-2 {
+  flex-grow: 1;
+  display: inline-flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
 .pt-table-head {
-  display: grid;
+  display: inline-grid;
   grid-template-columns: v-bind('cssGridColumnsConfig');
   font-weight: bold;
 }
 
 .pt-table-header-cell {
   padding: 2px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
+  background-color: var(--pt-table-head-bg-color);
+  border: 1px solid var(--pt-border-color);
   text-align: center;
 }
 
-.pt-table-body-wrapper {
-  background-color: yellow;
-  flex-grow: 1;
-  //overflow-y: scroll;
-  //overflow-y: hidden;
-
-  //overflow-x: scroll;
-}
-
 .pt-table-body {
-  display: grid;
+  display: inline-grid;
   gap: var(--pt-table-gap);
 }
 
 .pt-table-row {
-  display: grid;
+  display: inline-grid;
   grid-template-columns: v-bind('cssGridColumnsConfig');
 }
 
@@ -183,16 +169,12 @@ function changePage(newPage) {
 
 .pt-table-cell {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--pt-border-color);
   text-align: center;
   max-height: 5rem;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.pt-pagination-panel {
-  height: 40px;
 }
 
 </style>
