@@ -7,6 +7,8 @@ import org.example.budget.repository.entity.BudgetEventWrapperEntity;
 import org.example.budget.repository.entity.events.AbstractEventPayload;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Instant;
+
 public abstract class AbstractBudgetStrategy <Event extends AbstractEventPayload> {
 
     @Autowired
@@ -18,7 +20,7 @@ public abstract class AbstractBudgetStrategy <Event extends AbstractEventPayload
 
     public abstract Class<Event> getTargetEvent();
 
-    public abstract BudgetEntity sourceEvent(BudgetEntity budget, BudgetEventWrapperEntity event);
+    protected abstract BudgetEntity sourceEvent(BudgetEntity budget, BudgetEventWrapperEntity event);
 
     public BudgetEntity sourceEventWrapper(BudgetEntity budget, BudgetEventWrapperEntity wrapper) {
         budget = sourceEvent(budget, wrapper);
@@ -35,6 +37,8 @@ public abstract class AbstractBudgetStrategy <Event extends AbstractEventPayload
                 .budgetId(budget == null ? null : budget.getId())
                 .payload(event)
                 .sequenceNumber(budget == null ? 1L : budget.getLastEventNumber() + 1)
+                .createdAt(Instant.now())
+                .createdByUserId(123L) // TODO KG
                 .build();
 
         budget = sourceEventWrapper(budget, evtWrapper);
@@ -43,8 +47,8 @@ public abstract class AbstractBudgetStrategy <Event extends AbstractEventPayload
         if (evtWrapper.getBudgetId() == null) {
             evtWrapper.setBudgetId(budget.getId());
         }
+
         budgetEventsRepository.save(evtWrapper);
         return budget;
     }
-
 }

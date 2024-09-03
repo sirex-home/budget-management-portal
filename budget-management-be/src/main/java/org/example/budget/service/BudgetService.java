@@ -86,7 +86,7 @@ public class BudgetService {
     }
 
     public List<BudgetEventWrapperEntity> getEvents(Long budgetId, Integer page) {
-        List<BudgetEventWrapperEntity> events = budgetEventsRepository.findAllByBudgetIdOrderBySequenceNumber(budgetId, PageRequest.of(page, 10));
+        List<BudgetEventWrapperEntity> events = budgetEventsRepository.findAllByBudgetIdOrderBySequenceNumberDesc(budgetId, PageRequest.of(page, 10));
         return events;
     }
 

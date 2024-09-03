@@ -10,8 +10,10 @@ spring:
     locations: classpath:db/migration
   mvc.static-path-pattern: /**
   web.resources.static-locations: file:./budget-management-fe/dist/
-
-spring.datasource:
-  url: ${RUKULA_APP_POSTGRES_URL:no_default}
-  username: ${RUKULA_APP_POSTGRES_USERNAME:no_default}
-  password: ${RUKULA_APP_POSTGRES_PASSWORD:no_default}
+  datasource:
+    url: ${RUKULA_APP_POSTGRES_URL:jdbc:postgres://127.0.0.1:5432/budgets-service}
+    username: ${RUKULA_APP_POSTGRES_USERNAME:budgets-service}
+    password: ${RUKULA_APP_POSTGRES_PASSWORD:password}
+  docker:
+    compose:
+      lifecycle-management: start_only

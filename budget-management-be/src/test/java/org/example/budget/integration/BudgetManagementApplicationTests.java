@@ -16,7 +16,7 @@ class BudgetManagementApplicationTests extends BaseIntegrationTest {
 
     @Test
     void testBudgetAcceptedFlow() {
-        ResponseEntity<Map> creationResult = clientSimulator.createBudget(1000, "Some initial");
+        ResponseEntity<Map> creationResult = clientSimulator.createBudget("Super budget", 1000, "Some initial");
         assertThat(creationResult.getStatusCode()).isEqualTo(HttpStatus.OK);
         Map body = creationResult.getBody();
         Integer budgetId = (Integer) body.get("id");

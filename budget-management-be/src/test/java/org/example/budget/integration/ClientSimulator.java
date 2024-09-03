@@ -18,10 +18,11 @@ public class ClientSimulator {
         this.rest = rest;
     }
 
-    public ResponseEntity<Map> createBudget(Integer amount, String description) {
+    public ResponseEntity<Map> createBudget(String title, Integer amount, String description) {
         var requestEntity = RequestEntity.post("/api/v1/budgets")
                 .body(Map.of(
                         "type", "CREATE",
+                        "title", title,
                         "amount", amount,
                         "description", description
                 ));

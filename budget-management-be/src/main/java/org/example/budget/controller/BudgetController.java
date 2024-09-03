@@ -1,6 +1,5 @@
 package org.example.budget.controller;
 
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.example.budget.dto.PageDto;
 import org.example.budget.repository.entity.BudgetEntity;
@@ -23,7 +22,7 @@ public class BudgetController {
     }
 
     @GetMapping("/v1/budgets/{id}/events")
-    public List<BudgetEventWrapperEntity> getBudgetEvents(@PathParam("id") Long budgetId, @RequestParam("page") Integer page) {
+    public List<BudgetEventWrapperEntity> getBudgetEvents(@PathVariable("id") Long budgetId, @RequestParam("page") Integer page) {
         return budgetService.getEvents(budgetId, page);
     }
 

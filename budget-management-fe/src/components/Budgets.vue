@@ -45,7 +45,6 @@ const tableId = "budgets"
 <style scoped>
 .page-container {
   height: calc(100vh - var(--v-layout-top));
-  //background-color: #004040;
 }
 
 </style>

@@ -10,4 +10,6 @@ public interface BudgetEventsRepository extends JpaRepository<BudgetEventWrapper
 
     List<BudgetEventWrapperEntity> findAllByBudgetIdOrderBySequenceNumber(Long budgetId, Pageable pageable);
 
+    List<BudgetEventWrapperEntity> findAllByBudgetIdOrderBySequenceNumberDesc(Long budgetId, Pageable pageable);
+
 }

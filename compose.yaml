@@ -1,0 +1,142 @@
+networks:
+  budgets-network:
+    name: ${NETWORK_NAME}
+
+volumes:
+  budgets_postgres:
+  pgadmin_data:
+  keycloak_data:
+
+services:
+  postgres:
+    hostname: ${PG_HOSTNAME}
+    container_name: ${PG_HOSTNAME}
+    image: postgres:16.4-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - budgets_postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_DB=${PG_DB}
+    configs:
+      - source: pg.init.sql
+        target: /docker-entrypoint-initdb.d/db.initializer.sql
+    networks:
+      - ${NETWORK_NAME}
+
+  pgadmin:
+    image: dpage/pgadmin4:8.9
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_SERVER_JSON_FILE: /var/lib/servers.json
+    configs:
+      - source: pgadmin.servers.json
+        target: /var/lib/servers.json
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - ${NETWORK_NAME}
+
+  keycloak_web:
+    image: quay.io/keycloak/keycloak:25.0.4
+    container_name: ${KCLK_CONTAINER_NAME}
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://${PG_HOSTNAME}:5432/${KCLK_PG_DB}
+      KC_DB_USERNAME: ${KCLK_PG_USERNAME}
+      KC_DB_PASSWORD: ${KCLK_PG_PASSWORD}
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: 'false'
+      KC_HOSTNAME_STRICT_HTTPS: 'false'
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: 'true'
+      KC_HEALTH_ENABLED: 'true'
+
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev --import-realm
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    configs:
+      - source: test-realm.json
+        target: /opt/keycloak/data/import/test-realm.json
+    depends_on:
+      - postgres
+    ports:
+      - '8666:8080'
+    networks:
+      - ${NETWORK_NAME}
+
+configs:
+  pgadmin.servers.json:
+    content: |
+      {
+        "Servers": {
+          "1": {
+              "Name": "BudgetPG",
+              "Group": "Server Group 1",
+              "Port": 5432,
+              "Username": "${PG_USER}",
+              "Host": "${PG_HOSTNAME}",
+              "SSLMode": "prefer",
+              "MaintenanceDB": "postgres"
+          }
+        }
+      }
+  pg.init.sql:
+    content: |
+      CREATE DATABASE ${KCLK_PG_DB};
+      CREATE USER ${KCLK_PG_USERNAME} PASSWORD '${KCLK_PG_PASSWORD}';
+      GRANT ALL PRIVILEGES ON DATABASE ${KCLK_PG_DB} TO ${KCLK_PG_USERNAME};
+      \c ${KCLK_PG_DB}
+      GRANT USAGE, CREATE ON SCHEMA public TO ${KCLK_PG_USERNAME};
+  test-realm.json:
+    content: |
+      {
+        "realm": "test-realm",
+        "enabled": true,
+        "users": [
+          {
+            "username": "test-user",
+            "enabled": true,
+            "credentials": [
+              {
+                "type": "password",
+                "value": "test-password"
+              }
+            ],
+            "realmRoles": ["user"]
+          }
+        ],
+        "clients": [
+          {
+            "clientId": "test-client",
+            "enabled": true,
+            "protocol": "openid-connect",
+            "secret": "test-client-secret",
+            "redirectUris": ["http://localhost:8080/*"],
+            "publicClient": false,
+            "directAccessGrantsEnabled": true,
+            "fullScopeAllowed": true,
+            "authorizationServicesEnabled": true,
+            "webOrigins": ["*"]
+          }
+        ],
+        "roles": {
+          "realm": [
+            {
+              "name": "user"
+            }
+          ]
+        }
+      }

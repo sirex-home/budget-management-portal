@@ -12,10 +12,10 @@ import java.util.Optional;
 public class JPAConfig {
 
     @Bean
-    public AuditorAware<String> auditorAware() {
+    public AuditorAware<Long> auditorAware() {
         // TODO KG: implement security integration
         // return () -> Optional.of(((SecurityProperties.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername());
-        return () -> Optional.of("mocked_security_user");
+        return () -> Optional.of(42L);
     }
 
 }

@@ -1,5 +1,9 @@
 @import './node_modules/@mdi/font/css/materialdesignicons.css';
 
+.pt-property {
+  font-weight: bold;
+}
+
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --pt-primary-color: #004060;
