@@ -105,16 +105,19 @@ configs:
       {
         "realm": "test-realm",
         "enabled": true,
+        "registrationEmailAsUsername": true,
+        "verifyEmail": false,
+        "loginWithEmailAllowed": true,
+        "registrationAllowed": true,
+        "registrationEmailAsUsername": true,
         "users": [
           {
             "username": "test-user",
             "enabled": true,
-            "credentials": [
-              {
-                "type": "password",
-                "value": "test-password"
-              }
-            ],
+            "email": "test@mail.com",
+            "firstName": "",
+            "lastName": "",
+            "credentials": [ { "type": "password", "value": "password" } ],
             "realmRoles": ["user"]
           }
         ],
