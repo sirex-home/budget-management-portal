@@ -1,7 +1,40 @@
 <script setup>
-import {ref, watch} from 'vue';
+import {onMounted, watchEffect, ref, watch} from 'vue';
 import { useRoute } from 'vue-router'
 import colors, {green, grey} from 'vuetify/util/colors'
+import oidcClient from '@/oidc.js'
+
+const route = useRoute()
+
+async function delay(millis) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(42), millis)
+  })
+}
+
+watchEffect(async () => {
+  console.log('route.path', route.path);
+  console.log('route.query', route.query);
+  console.log('watchEffect App.vue');
+
+  await delay(3000)
+
+  if (route.path !== '/login') {
+    console.log("Triggering oauth login")
+
+    let user = await oidcClient.getUser();
+    if (!user || user.expired) {
+      console.log("Initiating signinRedirect")
+      await oidcClient.signinRedirect(); // Редирект на страницу авторизации Keycloak
+    }
+  }
+
+});
+
+onMounted( () => {
+  console.log("route name: ", route.path)
+})
+
 
 const menu = ref(false);
 
@@ -12,7 +45,6 @@ function logout() {
 
 const contextualActions = ref([])
 const updateContextualPanel = () => {
-  console.log('route.props:', route.meta)
   if (route.meta && route.meta.actions) {
     contextualActions.value = route.meta.actions
   } else {
@@ -20,10 +52,10 @@ const updateContextualPanel = () => {
   }
 }
 
-const route = useRoute()
 watch(route, updateContextualPanel, { immediate: false })
 
 import eventBus from '@/eventBuss.js'
+import {getBudgetDetails, getBudgetEvents} from "@/services/client.js";
 </script>
 
 <template>

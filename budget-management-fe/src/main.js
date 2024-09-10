@@ -9,11 +9,13 @@ import vuetify from './vuetify.js';
 import Home from "@/components/Home.vue";
 import Budgets from "@/components/Budgets.vue";
 import BudgetsDetails from "@/components/BudgetsDetails.vue";
+import LoginRedirect from "@/components/LoginRedirect.vue";
 
 
 const routes = [
     {path: '/',                                    component: Home},
     {path: '/home',        name: 'home',           component: Home},
+    {path: '/login',       name: 'login',          component: LoginRedirect },
     {path: '/budgets',     name: 'budgets',        component: Budgets,
         meta: { actions: [ { event: 'open:table-filters', icon: 'mdi-filter' } ] } },
     {path: '/budgets/:id', name: 'budget-details', component: BudgetsDetails}
