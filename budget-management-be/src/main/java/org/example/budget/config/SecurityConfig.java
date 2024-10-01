@@ -9,9 +9,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {

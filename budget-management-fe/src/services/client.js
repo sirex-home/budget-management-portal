@@ -1,16 +1,4 @@
-import axios from 'axios'
-
-const apiClient = axios.create({
-    timeout: 5000,
-    headers: {'X-Custom-Header': 'foobar'}
-});
-
-apiClient.interceptors.request.use(async config => {
-    await new Promise(resolve => setTimeout(resolve, 1));  // TODO KG: remove debug interceptor
-    return config;
-}, error => {
-    return Promise.reject(error);
-});
+import apiClient from '@/serverAxios.js';
 
 export async function getBudgets(page, searchReq) {
     return apiClient.get(`/api/v1/budgets?page=${page}`)

@@ -63,12 +63,16 @@ services:
 
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+
+      KEYCLOAK_USER_PROFILE_FILE: /opt/keycloak/data/keycloak-default-user-profile.json
     command: start-dev --import-realm
     volumes:
       - keycloak_data:/opt/keycloak/data
     configs:
       - source: test-realm.json
         target: /opt/keycloak/data/import/test-realm.json
+      - source: keycloak-default-user-profile.json
+        target: /opt/keycloak/data/keycloak-default-user-profile.json
     depends_on:
       - postgres
     ports:
@@ -99,6 +103,39 @@ configs:
       GRANT ALL PRIVILEGES ON DATABASE ${KCLK_PG_DB} TO ${KCLK_PG_USERNAME};
       \c ${KCLK_PG_DB}
       GRANT USAGE, CREATE ON SCHEMA public TO ${KCLK_PG_USERNAME};
+  keycloak-default-user-profile.json:
+    content: |
+      {
+        "attributes": [
+          {
+            "name": "email",
+            "displayName": "Email",
+            "required": true,
+            "permissions": {
+              "view": ["user", "admin"],
+              "edit": ["user", "admin"]
+            }
+          },
+          {
+            "name": "firstName",
+            "displayName": "First Name",
+            "required": false,
+            "permissions": {
+              "view": ["user", "admin"],
+              "edit": ["user", "admin"]
+            }
+          },
+          {
+            "name": "lastName",
+            "displayName": "Last Name",
+            "required": false,
+            "permissions": {
+              "view": ["user", "admin"],
+              "edit": ["user", "admin"]
+            }
+          }
+        ]
+      }
   test-realm.json:
     content: |
       {
@@ -114,8 +151,6 @@ configs:
             "username": "test-user",
             "enabled": true,
             "email": "test@mail.com",
-            "firstName": "",
-            "lastName": "",
             "credentials": [ { "type": "password", "value": "password" } ],
             "realmRoles": ["user"]
           }
@@ -131,7 +166,12 @@ configs:
             "directAccessGrantsEnabled": true,
             "fullScopeAllowed": true,
             "authorizationServicesEnabled": true,
-            "webOrigins": ["*"]
+            "webOrigins": ["*"],
+            "attributes": {
+              "access.token.lifespan": "20",
+              "refresh.token.lifespan": "36000",
+              "id.token.lifespan": "1800"
+            }
           }
         ],
         "roles": {
@@ -140,5 +180,9 @@ configs:
               "name": "user"
             }
           ]
+        },
+        "attributes": {
+          "user.profile.firstName.required": "false",
+          "user.profile.lastName.required": "false"
         }
       }
